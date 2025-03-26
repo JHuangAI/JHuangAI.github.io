@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jim Huang | AI Researcher</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --vibrant-blue: #4361ee;
+            --electric-purple: #7209b7;
+            --neon-green: #4cc9f0;
+            --sunny-yellow: #f8961e;
+            --linkedin-blue: #0a66c2;
+            --bright-bg: #f8f9fa;
+            --text-dark: #212529;
+            --text-light: #495057;
+            --card-bg: #ffffff;
+            --highlight: rgba(113, 9, 183, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .academic-bio {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #333;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 1rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+        }
+
+        .highlight {
+            font-weight: 500;
+            position: relative;
+            display: inline-block;
+        }
+
+        .highlight::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -2px;
+            right: -2px;
+            height: 40%;
+            background: rgba(125, 200, 255, 0.3);
+            transform: skewX(-5deg);
+            z-index: -1;
+            border-radius: 2px;
+            transition: all 0.2s ease;
+        }
+
+        .highlight:hover::before {
+            height: 50%;
+            background: rgba(125, 200, 255, 0.4);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bright-bg);
+            color: var(--text-dark);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .ai-profile {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 3rem;
+            align-items: center;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-profile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--vibrant-blue), var(--electric-purple));
+        }
+
+        .brain-avatar {
+            width: 180px;
+            height: 250px;
+            border-radius: 25px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.2);
+            border: 4px solid white;
+        }
+
+        .brain-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-content {
+            position: relative;
+        }
+
+        .ai-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .ai-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(to right, var(--vibrant-blue), var(--electric-purple));
+            border-radius: 2px;
+        }
+
+        .research-focus {
+            color: var(--electric-purple);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.5px;
+        }
+
+
+
+        .qualifications {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .degree {
+            background: rgba(67, 97, 238, 0.1);
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--vibrant-blue);
+            border: 1px solid rgba(67, 97, 238, 0.2);
+        }
+
+        .certification {
+            background: rgba(114, 9, 183, 0.1);
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(114, 9, 183, 0.2);
+        }
+
+        .certification a {
+            color: var(--electric-purple);
+            text-decoration: none;
+        }
+
+        .certification:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(114, 9, 183, 0.1);
+        }
+
+        .ai-links {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .neuro-link {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            color: white;
+            text-decoration: none;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .neuro-link i {
+            margin-right: 0.6rem;
+            font-size: 1.1rem;
+        }
+
+        .neuro-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .link-scholar {
+            background: linear-gradient(to right, var(--vibrant-blue), var(--electric-purple));
+        }
+
+        .link-github {
+            background: #333;
+        }
+
+        .link-linkedin {
+            background: var(--linkedin-blue);
+        }
+
+        .link-email {
+            background: var(--sunny-yellow);
+        }
+
+        .publication-counter {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: rgba(76, 201, 240, 0.1);
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--neon-green);
+            border: 1px solid rgba(76, 201, 240, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .ai-profile {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding: 2rem;
+            }
+
+            .brain-avatar {
+                margin: 0 auto 1.5rem;
+            }
+
+            .ai-title::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .publication-counter {
+                position: relative;
+                margin-bottom: 1.5rem;
+                display: inline-block;
+            }
+
+            .qualifications, .ai-links {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ai-profile">
+            <div class="brain-avatar">
+                <img src="https://papyrusaustralia.com.au/wp-content/uploads/2021/03/Jim-Huang-sml.png" alt="Jim Huang">
+            </div>
+
+            <div class="profile-content">
+                <div class="publication-counter">
+                    <span>Entrepreneurial AI Researcher</span>
+                </div>
+
+                <h1 class="ai-title">Jim Huang</h1>
+                <p class="research-focus">TinyML • Secure AI • Model Distillation • Training Architectures • Neuromorphic AI</p>
+
+                <p class="academic-bio">
+                    As a <span class="highlight">penultimate-year PhD candidate</span> and <span class="highlight">RTP scholar</span> specializing in AI research,
+                    I have contributed to numerous peer-reviewed publications, demonstrating a commitment to advancing innovative solutions.
+                    Beyond academia, I have developed strong <span class="highlight">business acumen</span> through involvement in major finance deals and
+                    executive management roles. Passionate about merging <span class="highlight">cutting-edge research</span> with
+                    <span class="highlight">strategic industry insights</span>, I thrive on interdisciplinary exchange and actively
+                    seek opportunities that drive impactful progress.
+                </p>
+
+                <div class="qualifications">
+                    <div class="degree">MEng (UCL)</div>
+                    <div class="degree">MPhil (Cambridge)</div>
+                    <div class="degree">PhD (USYD)</div>
+                    <div class="certification">
+                        <a href="https://basno.com/y2z9sa5g" target="_blank">CFA</a>
+                    </div>
+                    <div class="certification">
+                        <a href="https://garp.my.site.com/DigitalBadgeFRM?id=0031W00002JfCsZQAV" target="_blank">FRM</a>
+                    </div>
+                </div>
+
+                <div class="ai-links">
+                    <a href="https://scholar.google.com.au/citations?user=s8c5aQwAAAAJ&hl=en" class="neuro-link link-scholar"  target="_blank" rel="noopener noreferrer">
+                        <i class="fas fa-graduation-cap"></i>
+                        Google Scholar
+                    </a>
+                    <a href="https://github.com/DearProgrammers?tab=repositories" class="neuro-link link-github"  target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-github"></i>
+                        GitHub
+                    </a>
+                    <a href="https://www.linkedin.com/in/zjimhuang/" class="neuro-link link-linkedin" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-linkedin-in"></i>
+                        LinkedIn
+                    </a>
+                    <a href="mailto:zhaojing_jim@hotmail.com" class="neuro-link link-email">
+                        <i class="fas fa-envelope"></i>
+                        Contact
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
