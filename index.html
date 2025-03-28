@@ -247,6 +247,33 @@
             border: 1px solid rgba(76, 201, 240, 0.3);
         }
 
+        /* New counter styles */
+        .visitor-counter {
+            display: flex;
+            align-items: center;
+            margin-top: 1.5rem;
+            padding: 0.8rem 1.2rem;
+            background: rgba(114, 9, 183, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(114, 9, 183, 0.1);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9rem;
+            color: var(--electric-purple);
+            width: fit-content;
+            margin-left: auto;
+        }
+
+        .visitor-counter i {
+            margin-right: 0.6rem;
+            color: var(--electric-purple);
+        }
+
+        .counter-value {
+            font-weight: 600;
+            margin-left: 0.4rem;
+            color: var(--vibrant-blue);
+        }
+
         @media (max-width: 768px) {
             .ai-profile {
                 grid-template-columns: 1fr;
@@ -271,6 +298,10 @@
 
             .qualifications, .ai-links {
                 justify-content: center;
+            }
+
+            .visitor-counter {
+                margin: 1.5rem auto 0;
             }
         }
     </style>
