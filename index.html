@@ -577,6 +577,36 @@
                 sendChatQuestion();
             }
         }
+
+        // --- NEW TRANSLATOR FUNCTION ---
+        function formatAIResponse(text) {
+            return text
+                // 1. Convert **text** into bold HTML
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                // 2. Convert markdown asterisks (*) at the start of a line into a clean bullet (•)
+                .replace(/^\* (.*?)$/gm, '• $1')
+                // 3. Convert markdown links [text](url) into clickable HTML links
+                .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" style="color: var(--vibrant-blue); text-decoration: underline;">$1</a>');
+        }
+
+        // --- UPDATED APPEND MESSAGE FUNCTION ---
+        function appendChatMessage(sender, text, type) {
+            const history = document.getElementById("chat-history-container");
+            const msgDiv = document.createElement("div");
+            msgDiv.className = `chat-msg ${type}`;
+            
+            if (type === 'system') {
+                msgDiv.innerHTML = `<strong>${text}</strong>`;
+            } else if (type === 'ai') {
+                // Pass the AI's raw text through our new formatting function
+                msgDiv.innerHTML = formatAIResponse(text);
+            } else {
+                msgDiv.innerHTML = text;
+            }
+            
+            history.appendChild(msgDiv);
+            history.scrollTop = history.scrollHeight; // Keep view pinned to bottom
+        }
     </script>
     
 </head>
