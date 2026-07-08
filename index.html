@@ -650,43 +650,42 @@
                         </a>
                     </span>
                 </div>
-
-
-                <!-- Floating Chat Button -->
-                <div class="chat-widget-btn" id="chat-widget-toggle" onclick="toggleChat()">
-                    <i class="fas fa-comments"></i>
-                </div>
-            
-                <!-- Pop-up Chat Window -->
-                <div class="chat-window" id="chat-window-container">
-                    <div class="chat-header">
-                        <i class="fas fa-robot"></i>
-                        <h3>Research Assistant</h3>
-                        <div class="close-btn" onclick="toggleChat()">
-                            <i class="fas fa-times"></i>
-                        </div>
-                    </div>
-                    
-                    <div class="chat-history" id="chat-history-container">
-                        <div class="chat-msg ai">
-                            Hi! I'm Jim's research assistant. Ask me anything about his publications or research focus!
-                        </div>
-                    </div>
-            
-                    <div class="chat-input-area">
-                        <input type="text" id="chat-user-input" placeholder="Ask about TinyuTrainer, KAN..." onkeypress="handleChatEnter(event)">
-                        <button id="chat-send-btn" onclick="sendChatQuestion()">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </div>
-                    <div id="chat-status" class="chat-footer-status" style="display: none;"></div>
-                </div>
-
-
                 
-            </div>
-        </div>      
+            </div> <!-- Closes profile-content -->
+        </div> <!-- Closes ai-profile -->       
+    </div> <!-- Closes container -->
+
+
+    <!-- Floating Chat Button -->
+    <div class="chat-widget-btn" id="chat-widget-toggle" onclick="toggleChat()">
+        <i class="fas fa-comments"></i>
     </div>
+
+    <!-- Pop-up Chat Window -->
+    <div class="chat-window" id="chat-window-container">
+        <div class="chat-header">
+            <i class="fas fa-robot"></i>
+            <h3>Research Assistant</h3>
+            <div class="close-btn" onclick="toggleChat()">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+        
+        <div class="chat-history" id="chat-history-container">
+            <div class="chat-msg ai">
+                Hi! I'm Jim's research assistant. Ask me anything about his publications or research focus!
+            </div>
+        </div>
+
+        <div class="chat-input-area">
+            <input type="text" id="chat-user-input" placeholder="Ask about TinyuTrainer, KAN..." onkeypress="handleChatEnter(event)">
+            <button id="chat-send-btn" onclick="sendChatQuestion()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+        <div id="chat-status" class="chat-footer-status" style="display: none;"></div>
+    </div>
+    
 </body>
 </html>
 
