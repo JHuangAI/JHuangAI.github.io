@@ -482,6 +482,102 @@
             .chat-widget-btn { bottom: 20px; right: 20px; }
         }
     </style>
+
+    <script>
+        // --- CONFIGURATION: Paste your actual Cloudflare Worker URL here ---
+        const WORKER_URL = "https://YOUR_CLOUDFLARE_WORKER_URL_HERE";
+
+        function toggleChat() {
+            const chatWindow = document.getElementById("chat-window-container");
+            const toggleBtn = document.getElementById("chat-widget-toggle");
+            const isClosing = chatWindow.classList.contains("active");
+            
+            chatWindow.classList.toggle("active");
+            
+            // Toggle bubble icon between message and close sign
+            if (isClosing) {
+                toggleBtn.innerHTML = '<i class="fas fa-comments"></i>';
+            } else {
+                toggleBtn.innerHTML = '<i class="fas fa-chevron-down"></i>';
+                // Auto focus input when opening
+                setTimeout(() => document.getElementById("chat-user-input").focus(), 300);
+            }
+        }
+
+        async function sendChatQuestion() {
+            const inputField = document.getElementById("chat-user-input");
+            const sendBtn = document.getElementById("chat-send-btn");
+            const statusText = document.getElementById("chat-status");
+            
+            const question = inputField.value.trim();
+            if (!question) return;
+
+            // 1. Display User Message
+            appendChatMessage("You", question, "user");
+            inputField.value = "";
+            sendBtn.disabled = true;
+            
+            statusText.style.display = "block";
+            statusText.style.color = "var(--text-light)";
+            statusText.textContent = "Analyzing research papers...";
+
+            try {
+                // 2. Query Cloudflare backend via POST
+                const response = await fetch(WORKER_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ question: question })
+                });
+
+                const data = await response.json();
+
+                // 3. Handle specific Response Statuses
+                if (!response.ok) {
+                    if (response.status === 429) {
+                        appendChatMessage("System", data.error, "system");
+                        statusText.style.display = "none";
+                    } else {
+                        appendChatMessage("Error", `Server error: ${data.error || "Unable to retrieve response."}`, "system");
+                        statusText.style.display = "none";
+                    }
+                } else {
+                    // 4. Print AI response & update daily metrics
+                    appendChatMessage("AI", data.answer, "ai");
+                    statusText.style.color = "var(--vibrant-blue)";
+                    statusText.textContent = `Queries remaining today: ${data.questionsRemaining}`;
+                }
+
+            } catch (error) {
+                appendChatMessage("Error", "Network error. Failed to hit back-end API gateway.", "system");
+                statusText.style.display = "none";
+            } finally {
+                sendBtn.disabled = false;
+            }
+        }
+
+        function appendChatMessage(sender, text, type) {
+            const history = document.getElementById("chat-history-container");
+            const msgDiv = document.createElement("div");
+            msgDiv.className = `chat-msg ${type}`;
+            
+            // Add custom rendering logic if system string or standard message format
+            if (type === 'system') {
+                msgDiv.innerHTML = `<strong>${text}</strong>`;
+            } else {
+                msgDiv.innerHTML = text;
+            }
+            
+            history.appendChild(msgDiv);
+            history.scrollTop = history.scrollHeight; // Keep view pinned to bottom
+        }
+
+        function handleChatEnter(event) {
+            if (event.key === "Enter") {
+                sendChatQuestion();
+            }
+        }
+    </script>
+    
 </head>
 <body>
     <div class="container">
