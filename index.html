@@ -304,6 +304,183 @@
                 margin: 1.5rem auto 0;
             }
         }
+        
+        /* --- FLOATING CHATBOT STYLES --- */
+        .chat-widget-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--vibrant-blue), var(--electric-purple));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(114, 9, 183, 0.3);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+        }
+
+        .chat-widget-btn:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .chat-window {
+            position: fixed;
+            bottom: 105px;
+            right: 30px;
+            width: 380px;
+            height: 500px;
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: translateY(30px) scale(0.95);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+            font-family: 'Inter', sans-serif;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .chat-window.active {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .chat-header {
+            background: linear-gradient(to right, var(--vibrant-blue), var(--electric-purple));
+            color: white;
+            padding: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chat-header h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            flex-grow: 1;
+        }
+
+        .chat-header .close-btn {
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .chat-header .close-btn:hover { opacity: 1; }
+
+        .chat-history {
+            flex-grow: 1;
+            padding: 1.2rem;
+            overflow-y: auto;
+            background: #fdfdfd;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .chat-msg {
+            max-width: 85%;
+            padding: 0.8rem 1rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+
+        .chat-msg.ai {
+            background: rgba(67, 97, 238, 0.06);
+            color: var(--text-dark);
+            align-self: flex-start;
+            border-top-left-radius: 4px;
+            border: 1px solid rgba(67, 97, 238, 0.1);
+        }
+
+        .chat-msg.user {
+            background: var(--vibrant-blue);
+            color: white;
+            align-self: flex-end;
+            border-top-right-radius: 4px;
+        }
+
+        .chat-msg.system {
+            background: rgba(248, 150, 30, 0.1);
+            color: #d9534f;
+            align-self: center;
+            text-align: center;
+            font-size: 0.8rem;
+            border-radius: 8px;
+            max-width: 95%;
+        }
+
+        .chat-input-area {
+            padding: 1rem;
+            background: var(--card-bg);
+            border-top: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input-area input {
+            flex-grow: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .chat-input-area input:focus {
+            border-color: var(--vibrant-blue);
+        }
+
+        .chat-input-area button {
+            background: var(--vibrant-blue);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .chat-input-area button:hover { background: #304ece; }
+        .chat-input-area button:disabled { background: #cbd5e1; cursor: not-allowed; }
+
+        .chat-footer-status {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            padding: 0 1rem 0.8rem 1rem;
+            background: var(--card-bg);
+            margin-top: -5px;
+        }
+
+        @media (max-width: 480px) {
+            .chat-window {
+                width: calc(100% - 40px);
+                right: 20px;
+                bottom: 95px;
+                height: 450px;
+            }
+            .chat-widget-btn { bottom: 20px; right: 20px; }
+        }
     </style>
 </head>
 <body>
@@ -376,6 +553,37 @@
                                  style="height: 20px; vertical-align: middle; border: none;">
                         </a>
                     </span>
+                </div>
+
+
+                <!-- Floating Chat Button -->
+                <div class="chat-widget-btn" id="chat-widget-toggle" onclick="toggleChat()">
+                    <i class="fas fa-comments"></i>
+                </div>
+            
+                <!-- Pop-up Chat Window -->
+                <div class="chat-window" id="chat-window-container">
+                    <div class="chat-header">
+                        <i class="fas fa-robot"></i>
+                        <h3>Research Assistant</h3>
+                        <div class="close-btn" onclick="toggleChat()">
+                            <i class="fas fa-times"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-history" id="chat-history-container">
+                        <div class="chat-msg ai">
+                            Hi! I'm Jim's research assistant. Ask me anything about his publications or research focus!
+                        </div>
+                    </div>
+            
+                    <div class="chat-input-area">
+                        <input type="text" id="chat-user-input" placeholder="Ask about TinyuTrainer, KAN..." onkeypress="handleChatEnter(event)">
+                        <button id="chat-send-btn" onclick="sendChatQuestion()">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <div id="chat-status" class="chat-footer-status" style="display: none;"></div>
                 </div>
 
 
