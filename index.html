@@ -484,31 +484,26 @@
         }
 
         #radar-display {
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: 20px;
-            border: 1px solid rgba(0,0,0,0.05);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            margin-top: 2rem;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
         
         #radar-display ul {
-            list-style: none; /* Removes default dots */
+            list-style-type: none; /* Removes the default bullet points */
+            padding: 0;
         }
         
         #radar-display li {
-            padding-left: 30px;
-            position: relative;
-            margin-bottom: 1.5rem;
-            font-size: 0.95rem;
-            color: var(--text-light);
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            line-height: 1.6;
         }
         
-        #radar-display li::before {
-            content: "⚡"; /* Industrial "radar" feel */
-            position: absolute;
-            left: 0;
-            top: 0;
+        #radar-display li:last-child {
+            border-bottom: none;
         }
     </style>
 
@@ -638,29 +633,30 @@
     </script>
 
     <script>
-    async function loadIndustryRadar() {
-        const displayElement = document.getElementById('radar-display');
-        
-        try {
-            // Replace with your specific Worker URL
-            const response = await fetch('https://industry-ai-radar.zhaojing-jim.workers.dev');
-            const data = await response.json();
+        async function loadIndustryRadar() {
+            const displayElement = document.getElementById('radar-display');
             
-        if (data.summary) {
-                // Strip markdown backticks and 'html' labels before injecting
-                const cleanHTML = data.summary
-                    .replace(/```html/g, "")
-                    .replace(/```/g, "")
-                    .trim();
-                displayElement.innerHTML = cleanHTML;
-            } else {
-                displayElement.innerHTML = "<p>Radar currently recalibrating.</p>";
+            try {
+                const response = await fetch('[https://industry-ai-radar.zhaojing-jim.workers.dev](https://industry-ai-radar.zhaojing-jim.workers.dev)');
+                const data = await response.json();
+                
+                if (data.summary) {
+                    // Remove markdown code blocks and whitespace
+                    let cleanHTML = data.summary
+                        .replace(/```html/g, "")
+                        .replace(/```/g, "")
+                        .trim();
+                    
+                    // Set the innerHTML to render the tags as real elements
+                    displayElement.innerHTML = cleanHTML;
+                } else {
+                    displayElement.innerHTML = "<p>Radar currently recalibrating.</p>";
+                }
+            } catch (err) {
+                console.error("Radar Error:", err);
+                displayElement.innerHTML = "<p>Unable to connect to the Industry Radar. Please check back later.</p>";
             }
-        } catch (err) {
-            console.error("Radar Error:", err);
-            displayElement.innerHTML = "<p>Unable to connect to the Industry Radar. Please check back later.</p>";
         }
-    }
 
     // Call the function when the page is fully loaded
     window.addEventListener('DOMContentLoaded', loadIndustryRadar);
