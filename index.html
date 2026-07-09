@@ -482,6 +482,24 @@
             }
             .chat-widget-btn { bottom: 20px; right: 20px; }
         }
+
+        #radar-display {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        #radar-display ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        #radar-display li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
     </style>
 
     <script>
@@ -608,6 +626,32 @@
             history.scrollTop = history.scrollHeight; // Keep view pinned to bottom
         }
     </script>
+
+    <script>
+    async function loadIndustryRadar() {
+        const displayElement = document.getElementById('radar-display');
+        
+        try {
+            // Replace with your specific Worker URL
+            const response = await fetch('https://industry-ai-radar.YOUR-SUBDOMAIN.workers.dev');
+            const data = await response.json();
+            
+            if (data.summary) {
+                // This converts the HTML string sent by the Worker 
+                // into actual elements on your page
+                displayElement.innerHTML = data.summary;
+            } else {
+                displayElement.innerHTML = "<p>Radar currently recalibrating.</p>";
+            }
+        } catch (err) {
+            console.error("Radar Error:", err);
+            displayElement.innerHTML = "<p>Unable to connect to the Industry Radar. Please check back later.</p>";
+        }
+    }
+
+    // Call the function when the page is fully loaded
+    window.addEventListener('DOMContentLoaded', loadIndustryRadar);
+    </script>
     
 </head>
 <body>
@@ -719,6 +763,13 @@
         </div>
         <div id="chat-status" class="chat-footer-status" style="display: none;"></div>
     </div>
+
+    <section id="industry-radar-section">
+        <h3>Applied AI Industry Radar</h3>
+        <div id="radar-display">
+            <p>Loading the latest insights from industry and academia...</p>
+        </div>
+    </section>
     
 </body>
 </html>
