@@ -653,34 +653,44 @@
     </script>
 
     <script>
-        async function loadIndustryRadar() {
-            const displayElement = document.getElementById('radar-display');
-            
-            try {
-                const response = await fetch('https://industry-ai-radar.zhaojing-jim.workers.dev');
-                const data = await response.json();
-                
-                if (data.summary) {
-                    // Remove markdown code blocks and whitespace
-                    let cleanHTML = data.summary
-                        .replace(/```html/g, "")
-                        .replace(/```/g, "")
-                        .trim();
-                    
-                    // Set the innerHTML to render the tags as real elements
-                    displayElement.innerHTML = cleanHTML;
-                } else {
-                    displayElement.innerHTML = "<p>Radar currently recalibrating.</p>";
+    async function loadIndustryRadar() {
+        const displayElement = document.getElementById('radar-display');
+        
+        try {
+            // Use 'mode: cors' to explicitly tell the browser this is a cross-origin request
+            const response = await fetch('https://industry-ai-radar.zhaojing-jim.workers.dev', {
+                method: 'GET',
+                mode: 'cors',
+                headers: {
+                    'Accept': 'application/json'
                 }
-            } catch (err) {
-                console.error("Radar Error:", err);
-                displayElement.innerHTML = "<p>Unable to connect to the Industry Radar. Please check back later.</p>";
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-        }
 
-    // Call the function when the page is fully loaded
+            const data = await response.json();
+            
+            if (data.summary) {
+                // Strip markdown backticks
+                let cleanHTML = data.summary
+                    .replace(/```html/g, "")
+                    .replace(/```/g, "")
+                    .trim();
+                displayElement.innerHTML = cleanHTML;
+            } else {
+                displayElement.innerHTML = "<p>Radar currently recalibrating.</p>";
+            }
+        } catch (err) {
+            console.error("Radar Error:", err);
+            // This will now show you EXACTLY why it failed in your F12 console
+            displayElement.innerHTML = `<p>Error: ${err.message}. Check F12 console for details.</p>`;
+        }
+    }
+
     window.addEventListener('DOMContentLoaded', loadIndustryRadar);
-    </script>
+</script>
     
 </head>
 <body>
