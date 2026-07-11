@@ -538,8 +538,13 @@
             animation: fadeIn 0.5s ease-in-out;
         }
         
-        /* Show the active one */
-        #radar-display > div.active {
+        /* Change this in your style block */
+        #radar-display .radar-slide {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        #radar-display .radar-slide.active {
             display: block;
         }
         
@@ -683,21 +688,22 @@
                 const data = await response.json();
                 
                 if (data.summary) {
-                    // 1. Process the HTML: Split by H3 tags
-                    // We wrap each H3 and its following list in a div
-                    const sections = data.summary.split('<h3>').filter(s => s.trim() !== "");
-                    displayElement.innerHTML = sections.map((s, i) => `<div class="radar-slide ${i === 0 ? 'active' : ''}"><h3>${s}</div>`).join('');
+                    // Since the worker now sends <div class="radar-slide">...</div> directly:
+                    displayElement.innerHTML = data.summary;
                     
-                    // 2. Carousel Logic
-                    let currentIndex = 0;
+                    // Add 'active' class to the first slide
                     const slides = document.querySelectorAll('.radar-slide');
-                    
-                    setInterval(() => {
-                        slides[currentIndex].classList.remove('active');
-                        currentIndex = (currentIndex + 1) % slides.length;
-                        slides[currentIndex].classList.add('active');
-                    }, 5000); // Rolls every 5 seconds
-                    
+                    if (slides.length > 0) {
+                        slides[0].classList.add('active');
+                        
+                        // Carousel Logic
+                        let currentIndex = 0;
+                        setInterval(() => {
+                            slides[currentIndex].classList.remove('active');
+                            currentIndex = (currentIndex + 1) % slides.length;
+                            slides[currentIndex].classList.add('active');
+                        }, 5000);
+                    }
                 } else {
                     displayElement.innerHTML = "<p>Radar currently recalibrating.</p>";
                 }
