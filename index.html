@@ -525,6 +525,28 @@
         #radar-display li {
             margin-bottom: 12px;
         }
+
+        #radar-display {
+            position: relative;
+            overflow: hidden;
+            min-height: 250px; /* Ensures the height doesn't jump */
+        }
+        
+        /* Hide all sections by default */
+        #radar-display > div {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        /* Show the active one */
+        #radar-display > div.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
     </style>
 
     <script>
@@ -653,43 +675,36 @@
     </script>
 
     <script>
-    async function loadIndustryRadar() {
-        const displayElement = document.getElementById('radar-display');
-        
-        try {
-            // Use 'mode: cors' to explicitly tell the browser this is a cross-origin request
-            const response = await fetch('https://industry-ai-radar.zhaojing-jim.workers.dev', {
-                method: 'GET',
-                mode: 'cors',
-                headers: {
-                    'Accept': 'application/json'
+        async function loadIndustryRadar() {
+            const displayElement = document.getElementById('radar-display');
+            
+            try {
+                const response = await fetch('https://industry-ai-radar.zhaojing-jim.workers.dev', { mode: 'cors' });
+                const data = await response.json();
+                
+                if (data.summary) {
+                    // 1. Process the HTML: Split by H3 tags
+                    // We wrap each H3 and its following list in a div
+                    const sections = data.summary.split('<h3>').filter(s => s.trim() !== "");
+                    displayElement.innerHTML = sections.map((s, i) => `<div class="radar-slide ${i === 0 ? 'active' : ''}"><h3>${s}</div>`).join('');
+                    
+                    // 2. Carousel Logic
+                    let currentIndex = 0;
+                    const slides = document.querySelectorAll('.radar-slide');
+                    
+                    setInterval(() => {
+                        slides[currentIndex].classList.remove('active');
+                        currentIndex = (currentIndex + 1) % slides.length;
+                        slides[currentIndex].classList.add('active');
+                    }, 5000); // Rolls every 5 seconds
+                    
+                } else {
+                    displayElement.innerHTML = "<p>Radar currently recalibrating.</p>";
                 }
-            });
-            
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+            } catch (err) {
+                displayElement.innerHTML = `<p>Error loading radar.</p>`;
             }
-
-            const data = await response.json();
-            
-            if (data.summary) {
-                // Strip markdown backticks
-                let cleanHTML = data.summary
-                    .replace(/```html/g, "")
-                    .replace(/```/g, "")
-                    .trim();
-                displayElement.innerHTML = cleanHTML;
-            } else {
-                displayElement.innerHTML = "<p>Radar currently recalibrating.</p>";
-            }
-        } catch (err) {
-            console.error("Radar Error:", err);
-            // This will now show you EXACTLY why it failed in your F12 console
-            displayElement.innerHTML = `<p>Error: ${err.message}. Check F12 console for details.</p>`;
         }
-    }
-
-    window.addEventListener('DOMContentLoaded', loadIndustryRadar);
 </script>
     
 </head>
