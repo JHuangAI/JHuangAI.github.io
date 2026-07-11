@@ -614,10 +614,11 @@
                 const data = await response.json();
                 
                 if (data.summary) {
-                    // DIRECT INJECTION: The backend JSON output handles the exact layout array
+                    // DIRECT INJECTION: Clean markdown and force all links to open in a new tab securely
                     let cleanHTML = data.summary
                         .replace(/```html/g, "")
                         .replace(/```/g, "")
+                        .replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ') // <-- NEW LINE HERE
                         .trim();
                         
                     displayElement.innerHTML = cleanHTML;
@@ -754,7 +755,7 @@
             <p>Live 24h industry & academic intelligence</p>
         </div>
         <div id="radar-display">
-            <p><i class="fas fa-spinner fa-spin"></i> Analyzing latest intelligence...</p>
+            <p><i class="fas fa-spinner fa-spin"></i> Analysing latest intelligence...</p>
         </div>
     </section>
 </body>
