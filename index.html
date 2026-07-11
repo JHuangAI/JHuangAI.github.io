@@ -149,8 +149,6 @@
             letter-spacing: 0.5px;
         }
 
-
-
         .qualifications {
             display: flex;
             flex-wrap: wrap;
@@ -218,21 +216,10 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
 
-        .link-scholar {
-            background: linear-gradient(to right, var(--vibrant-blue), var(--electric-purple));
-        }
-
-        .link-github {
-            background: #333;
-        }
-
-        .link-linkedin {
-            background: var(--linkedin-blue);
-        }
-
-        .link-email {
-            background: var(--sunny-yellow);
-        }
+        .link-scholar { background: linear-gradient(to right, var(--vibrant-blue), var(--electric-purple)); }
+        .link-github { background: #333; }
+        .link-linkedin { background: var(--linkedin-blue); }
+        .link-email { background: var(--sunny-yellow); }
 
         .publication-counter {
             position: absolute;
@@ -247,7 +234,6 @@
             border: 1px solid rgba(76, 201, 240, 0.3);
         }
 
-        /* New counter styles */
         .visitor-counter {
             display: flex;
             align-items: center;
@@ -280,29 +266,11 @@
                 text-align: center;
                 padding: 2rem;
             }
-
-            .brain-avatar {
-                margin: 0 auto 1.5rem;
-            }
-
-            .ai-title::after {
-                left: 50%;
-                transform: translateX(-50%);
-            }
-
-            .publication-counter {
-                position: relative;
-                margin-bottom: 1.5rem;
-                display: inline-block;
-            }
-
-            .qualifications, .ai-links {
-                justify-content: center;
-            }
-
-            .visitor-counter {
-                margin: 1.5rem auto 0;
-            }
+            .brain-avatar { margin: 0 auto 1.5rem; }
+            .ai-title::after { left: 50%; transform: translateX(-50%); }
+            .publication-counter { position: relative; margin-bottom: 1.5rem; display: inline-block; }
+            .qualifications, .ai-links { justify-content: center; }
+            .visitor-counter { margin: 1.5rem auto 0; }
         }
         
         /* --- FLOATING CHATBOT STYLES --- */
@@ -325,9 +293,7 @@
             z-index: 1000;
         }
 
-        .chat-widget-btn:hover {
-            transform: scale(1.1) rotate(5deg);
-        }
+        .chat-widget-btn:hover { transform: scale(1.1) rotate(5deg); }
 
         .chat-window {
             position: fixed;
@@ -372,12 +338,7 @@
             flex-grow: 1;
         }
 
-        .chat-header .close-btn {
-            cursor: pointer;
-            opacity: 0.8;
-            transition: opacity 0.2s;
-        }
-
+        .chat-header .close-btn { cursor: pointer; opacity: 0.8; transition: opacity 0.2s; }
         .chat-header .close-btn:hover { opacity: 1; }
 
         .chat-history {
@@ -444,9 +405,7 @@
             transition: border-color 0.2s;
         }
 
-        .chat-input-area input:focus {
-            border-color: var(--vibrant-blue);
-        }
+        .chat-input-area input:focus { border-color: var(--vibrant-blue); }
 
         .chat-input-area button {
             background: var(--vibrant-blue);
@@ -465,28 +424,16 @@
         .chat-input-area button:hover { background: #304ece; }
         .chat-input-area button:disabled { background: #cbd5e1; cursor: not-allowed; }
 
-        .chat-footer-status {
-            font-size: 0.75rem;
-            color: var(--text-light);
-            padding: 0 1rem 0.8rem 1rem;
-            background: var(--card-bg);
-            margin-top: -5px;
-        }
+        .chat-footer-status { font-size: 0.75rem; color: var(--text-light); padding: 0 1rem 0.8rem 1rem; background: var(--card-bg); margin-top: -5px; }
 
         @media (max-width: 480px) {
-            .chat-window {
-                width: calc(100% - 40px);
-                right: 20px;
-                bottom: 95px;
-                height: 450px;
-            }
+            .chat-window { width: calc(100% - 40px); right: 20px; bottom: 95px; height: 450px; }
             .chat-widget-btn { bottom: 20px; right: 20px; }
         }
 
-
-        
+        /* --- RADAR CAROUSEL CONTAINER STYLES --- */
         .radar-container {
-            max-width: 1100px; /* Aligned with your .academic-bio width */
+            max-width: 1100px;
             margin: 3rem auto;
             padding: 2rem;
             background: white;
@@ -515,9 +462,11 @@
             font-size: 0.95rem;
             line-height: 1.7;
             color: var(--text-light);
+            position: relative;
+            overflow: hidden;
+            min-height: 250px; /* Fixes layout shifting */
         }
         
-        /* Remove extra margins from the list */
         #radar-display ul {
             padding-left: 20px;
         }
@@ -526,22 +475,27 @@
             margin-bottom: 12px;
         }
 
-        #radar-display {
-            position: relative;
-            overflow: hidden;
-            min-height: 250px; /* Ensures the height doesn't jump */
+        #radar-display a {
+            color: var(--vibrant-blue);
+            text-decoration: none;
+            font-weight: 500;
         }
-        
-        /* Hide all sections by default */
-        #radar-display > div {
-            display: none;
-            animation: fadeIn 0.5s ease-in-out;
+
+        #radar-display a:hover {
+            text-decoration: underline;
         }
-        
-        /* Change this in your style block */
+
+        #radar-display h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--electric-purple);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        /* Rotator Layout Framework */
         #radar-display .radar-slide {
             display: none;
-            animation: fadeIn 0.5s ease-in-out;
+            animation: fadeIn 0.5s ease-in-out forwards;
         }
         
         #radar-display .radar-slide.active {
@@ -549,13 +503,13 @@
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 
     <script>
-        // --- CONFIGURATION: Paste your actual Cloudflare Worker URL here ---
+        // --- CONFIGURATION: Post API RAG Endpoint Gateway ---
         const WORKER_URL = "https://rag-backend.zhaojing-jim.workers.dev/";
 
         function toggleChat() {
@@ -565,12 +519,10 @@
             
             chatWindow.classList.toggle("active");
             
-            // Toggle bubble icon between message and close sign
             if (isClosing) {
                 toggleBtn.innerHTML = '<i class="fas fa-comments"></i>';
             } else {
                 toggleBtn.innerHTML = '<i class="fas fa-chevron-down"></i>';
-                // Auto focus input when opening
                 setTimeout(() => document.getElementById("chat-user-input").focus(), 300);
             }
         }
@@ -583,7 +535,6 @@
             const question = inputField.value.trim();
             if (!question) return;
 
-            // 1. Display User Message
             appendChatMessage("You", question, "user");
             inputField.value = "";
             sendBtn.disabled = true;
@@ -593,7 +544,6 @@
             statusText.textContent = "Analysing research papers...";
 
             try {
-                // 2. Query Cloudflare backend via POST
                 const response = await fetch(WORKER_URL, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -602,17 +552,14 @@
 
                 const data = await response.json();
 
-                // 3. Handle specific Response Statuses
                 if (!response.ok) {
                     if (response.status === 429) {
                         appendChatMessage("System", data.error, "system");
-                        statusText.style.display = "none";
                     } else {
                         appendChatMessage("Error", `Server error: ${data.error || "Unable to retrieve response."}`, "system");
-                        statusText.style.display = "none";
                     }
+                    statusText.style.display = "none";
                 } else {
-                    // 4. Print AI response & update daily metrics
                     appendChatMessage("AI", data.answer, "ai");
                     statusText.style.color = "var(--vibrant-blue)";
                     statusText.textContent = `Queries remaining today: ${data.questionsRemaining}`;
@@ -626,40 +573,19 @@
             }
         }
 
-        function appendChatMessage(sender, text, type) {
-            const history = document.getElementById("chat-history-container");
-            const msgDiv = document.createElement("div");
-            msgDiv.className = `chat-msg ${type}`;
-            
-            // Add custom rendering logic if system string or standard message format
-            if (type === 'system') {
-                msgDiv.innerHTML = `<strong>${text}</strong>`;
-            } else {
-                msgDiv.innerHTML = text;
-            }
-            
-            history.appendChild(msgDiv);
-            history.scrollTop = history.scrollHeight; // Keep view pinned to bottom
-        }
-
         function handleChatEnter(event) {
             if (event.key === "Enter") {
                 sendChatQuestion();
             }
         }
 
-        // --- NEW TRANSLATOR FUNCTION ---
         function formatAIResponse(text) {
             return text
-                // 1. Convert **text** into bold HTML
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                // 2. Convert markdown asterisks (*) at the start of a line into a clean bullet (•)
                 .replace(/^\* (.*?)$/gm, '• $1')
-                // 3. Convert markdown links [text](url) into clickable HTML links
                 .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" style="color: var(--vibrant-blue); text-decoration: underline;">$1</a>');
         }
 
-        // --- UPDATED APPEND MESSAGE FUNCTION ---
         function appendChatMessage(sender, text, type) {
             const history = document.getElementById("chat-history-container");
             const msgDiv = document.createElement("div");
@@ -668,28 +594,27 @@
             if (type === 'system') {
                 msgDiv.innerHTML = `<strong>${text}</strong>`;
             } else if (type === 'ai') {
-                // Pass the AI's raw text through our new formatting function
                 msgDiv.innerHTML = formatAIResponse(text);
             } else {
                 msgDiv.innerHTML = text;
             }
             
             history.appendChild(msgDiv);
-            history.scrollTop = history.scrollHeight; // Keep view pinned to bottom
+            history.scrollTop = history.scrollHeight;
         }
     </script>
 
     <script>
+        // --- LIVE METRIC RADAR COMPONENT INTAKE AND CONTROLLER ---
         async function loadIndustryRadar() {
             const displayElement = document.getElementById('radar-display');
             
             try {
-                const response = await fetch('https://industry-ai-radar.zhaojing-jim.workers.dev', { mode: 'cors' });
+                const response = await fetch('https://industry-ai-radar.zhaojing-jim.workers.dev', { method: 'GET', mode: 'cors' });
                 const data = await response.json();
                 
                 if (data.summary) {
-                    // 1. DIRECT INJECTION: The Worker already built the <div class="radar-slide"> structure!
-                    // We just clean any leftover AI markdown and inject it directly.
+                    // DIRECT INJECTION: The backend JSON output handles the exact layout array
                     let cleanHTML = data.summary
                         .replace(/```html/g, "")
                         .replace(/```/g, "")
@@ -697,31 +622,29 @@
                         
                     displayElement.innerHTML = cleanHTML;
                     
-                    // 2. CAROUSEL START
-                    const slides = document.querySelectorAll('.radar-slide');
+                    // Initialization Engine Rules
+                    const slides = document.querySelectorAll('#radar-display .radar-slide');
                     if (slides.length > 0) {
-                        // Make the first slide visible immediately
                         slides[0].classList.add('active');
                         
-                        // Start the 5-second rotation
                         let currentIndex = 0;
                         setInterval(() => {
                             slides[currentIndex].classList.remove('active');
                             currentIndex = (currentIndex + 1) % slides.length;
                             slides[currentIndex].classList.add('active');
-                        }, 5000); 
+                        }, 5000); // Transitions seamlessly exactly every 5 seconds
                     }
-                    
                 } else {
                     displayElement.innerHTML = "<p>Radar currently recalibrating.</p>";
                 }
             } catch (err) {
-                console.error("Radar Error:", err);
-                displayElement.innerHTML = `<p>Error loading radar.</p>`;
+                console.error("Radar Sync Error:", err);
+                displayElement.innerHTML = `<p>Error connecting to Live Industry Radar Engine.</p>`;
             }
         }
-</script>
-    
+
+        window.addEventListener('DOMContentLoaded', loadIndustryRadar);
+    </script>
 </head>
 <body>
     <div class="container">
@@ -766,41 +689,32 @@
                 </div>
 
                 <div class="ai-links">
-                    <a href="https://scholar.google.com.au/citations?user=s8c5aQwAAAAJ&hl=en" class="neuro-link link-scholar"  target="_blank" rel="noopener noreferrer">
-                        <i class="fas fa-graduation-cap"></i>
-                        Google Scholar
+                    <a href="https://scholar.google.com.au/citations?user=s8c5aQwAAAAJ&hl=en" class="neuro-link link-scholar" target="_blank" rel="noopener noreferrer">
+                        <i class="fas fa-graduation-cap"></i> Google Scholar
                     </a>
-                    <a href="https://github.com/JHuangAI?tab=repositories" class="neuro-link link-github"  target="_blank" rel="noopener noreferrer">
-                        <i class="fab fa-github"></i>
-                        GitHub
+                    <a href="https://github.com/JHuangAI?tab=repositories" class="neuro-link link-github" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-github"></i> GitHub
                     </a>
                     <a href="https://www.linkedin.com/in/zjimhuang/" class="neuro-link link-linkedin" target="_blank" rel="noopener noreferrer">
-                        <i class="fab fa-linkedin-in"></i>
-                        LinkedIn
+                        <i class="fab fa-linkedin-in"></i> LinkedIn
                     </a>
                     <a href="mailto:jimworking@hotmail.com" class="neuro-link link-email">
-                        <i class="fas fa-envelope"></i>
-                        Contact
+                        <i class="fas fa-envelope"></i> Contact
                     </a>
                 </div>
-                       
-
-                <!-- New visitor counter -->
+                        
+                <!-- Visitor Counter -->
                 <div class="visitor-counter">
                     <i class="fas fa-eye"></i>
                     <span>Visitors:</span>
                     <span class="counter-value">
-                            <!-- <a href="https://www.hitwebcounter.com" target="_blank" style="text-decoration: none; color: inherit;">  -->
-                            <img src="https://hitwebcounter.com/counter/counter.php?page=19977996&style=0006&nbdigits=5&type=ip&initCount=0" title="Counter Widget" 
-                                 alt="Visitor Counter" 
-                                 style="height: 20px; vertical-align: middle; border: none;">
-                        </a>
+                        <img src="https://hitwebcounter.com/counter/counter.php?page=19977996&style=0006&nbdigits=5&type=ip&initCount=0" title="Counter Widget" alt="Visitor Counter" style="height: 20px; vertical-align: middle; border: none;">
                     </span>
                 </div>
                 
-            </div> <!-- Closes profile-content -->
-        </div> <!-- Closes ai-profile -->       
-    </div> <!-- Closes container -->
+            </div>
+        </div> 
+    </div>
 
 
     <!-- Floating Chat Button -->
@@ -833,16 +747,15 @@
         <div id="chat-status" class="chat-footer-status" style="display: none;"></div>
     </div>
 
+    <!-- Live Aggregation Radar View -->
     <section class="radar-container">
         <div class="radar-header">
             <h3><i class="fas fa-satellite-dish"></i> Applied AI Radar</h3>
             <p>Live 24h industry & academic intelligence</p>
         </div>
         <div id="radar-display">
-            <p><i class="fas fa-spinner fa-spin"></i> Analysing latest intelligence...</p>
+            <p><i class="fas fa-spinner fa-spin"></i> Analyzing latest intelligence...</p>
         </div>
     </section>
-    
 </body>
 </html>
-
