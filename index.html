@@ -688,26 +688,35 @@
                 const data = await response.json();
                 
                 if (data.summary) {
-                    // Since the worker now sends <div class="radar-slide">...</div> directly:
-                    displayElement.innerHTML = data.summary;
+                    // 1. DIRECT INJECTION: The Worker already built the <div class="radar-slide"> structure!
+                    // We just clean any leftover AI markdown and inject it directly.
+                    let cleanHTML = data.summary
+                        .replace(/```html/g, "")
+                        .replace(/```/g, "")
+                        .trim();
+                        
+                    displayElement.innerHTML = cleanHTML;
                     
-                    // Add 'active' class to the first slide
+                    // 2. CAROUSEL START
                     const slides = document.querySelectorAll('.radar-slide');
                     if (slides.length > 0) {
+                        // Make the first slide visible immediately
                         slides[0].classList.add('active');
                         
-                        // Carousel Logic
+                        // Start the 5-second rotation
                         let currentIndex = 0;
                         setInterval(() => {
                             slides[currentIndex].classList.remove('active');
                             currentIndex = (currentIndex + 1) % slides.length;
                             slides[currentIndex].classList.add('active');
-                        }, 5000);
+                        }, 5000); 
                     }
+                    
                 } else {
                     displayElement.innerHTML = "<p>Radar currently recalibrating.</p>";
                 }
             } catch (err) {
+                console.error("Radar Error:", err);
                 displayElement.innerHTML = `<p>Error loading radar.</p>`;
             }
         }
